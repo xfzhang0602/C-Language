@@ -1,0 +1,4 @@
+﻿  test.cpp
+D:\code\C language code\20240708_1_FirstCprogram\20240708_1_FirstCprogram\test.cpp(164,25): warning C4129: “z：: 不可识别的字符转义序列
+D:\code\C language code\20240708_1_FirstCprogram\20240708_1_FirstCprogram\test.cpp(165,25): warning C4129: “z：: 不可识别的字符转义序列
+  20240708_1_FirstCprogram.vcxproj -> D:\code\C language code\20240708_1_FirstCprogram\x64\Debug\20240708_1_FirstCprogram.exe
