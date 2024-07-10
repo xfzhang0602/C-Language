@@ -1,0 +1,3 @@
+﻿  test.cpp
+D:\code\C language code\20240707_test\20240707_test\test.cpp(9,9): warning C4778: “printf”: 格式字符串“%\n”未终止
+  20240707_test.vcxproj -> D:\code\C language code\20240707_test\x64\Debug\20240707_test.exe
