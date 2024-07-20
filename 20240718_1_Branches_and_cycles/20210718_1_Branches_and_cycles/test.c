@@ -124,7 +124,7 @@ int main()
 	return 0;
 }
 
-*/
+
 
 
 #include <stdio.h>
@@ -200,4 +200,83 @@ int main()
 	}while (input);
 	return 0;
 }
+
+*/
+
+
+int main()
+{
+/*	
+
+	int arr[10];
+	int i;
+	
+	//一维数组的创建
+
+	int math[2];//声明一个长度为20的整型数组
+	char ch[5];
+	double arr[6];
+
+	//创建和初始化
+	int math[2] = {1,2};
+	char ch[5] = {'a','b'};
+	double arr[6] = {1.1,2.2,3.3,4.4,5.5,6.6};
+	return 0;
+
+
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	printf("%d\n", arr[9]);
+
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int i;
+	for (i = 0; i < 10; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+
+
+	//给数组输入10个值
+
+	for (int i = 0; i < 10; i++)
+	{
+		scanf("%d", &arr[i]);
+	}
+
+	//打印数组的内容
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+
+
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		printf("&arr[%d] = %p\n ", i, &arr[i]);
+	}
+
+*/
+
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int a = 0;
+	int sz=sizeof(arr)/sizeof(arr[0]);
+	printf("%d\n", sizeof(a));//单位是字节
+	printf("%d\n", sizeof(int));
+	printf("%d\n", sizeof(arr));
+	printf("%d\n", sz);
+
+	for(int i=0;i<sz;i++)
+	{
+		printf("%d ",arr[i]);
+	}
+
+
+
+
+
+
+	return 0;
+}
+
 
