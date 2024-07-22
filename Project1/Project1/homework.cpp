@@ -492,13 +492,13 @@ bool isPrime(int num) {
     return true;
 }
 
-*/
 
 
-/*
+
+
 思路：
 素数：即质数，除了1和自己之外，再没有其他的约数，则该数据为素数，具体方式如下
-*/
+
 
 
 //方法一：试除法
@@ -572,11 +572,11 @@ int main()
 
 
 
-/*
+
 方法二还是包含了一些重复的数据，再优化：
 如果i能够被[2, sqrt(i)]之间的任意数据整除，则i不是素数
 原因：如果 m 能被 2 ~ m-1 之间任一整数整除，其二个因子必定有一个小于或等于sqrt(m)，另一个大于或等于 sqrt(m)。
-*/
+
 int main()
 {
     int i = 0;
@@ -610,9 +610,9 @@ int main()
 
 
 //方法4
-/*
+
 继续对方法三优化，只要i不被[2, sqrt(i)]之间的任何数据整除，则i是素数，但是实际在操作时i不用从101逐渐递增到200，因为出了2和3之外，不会有两个连续相邻的数据同时为素数
-*/
+
 
 
 int main()
@@ -642,6 +642,175 @@ int main()
     }
 
     printf("\ncount = %d\n", count);
+    return 0;
+}
+
+*/
+
+
+
+//扫雷
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define ROW 9
+#define COL 9
+#define ROWS ROW + 2
+#define COLS COL + 2
+#define EASY_COUNT 10
+
+void menu() {
+    printf("***********************\n");
+    printf("***** 1. play *****\n");
+    printf("***** 0. exit *****\n");
+    printf("***********************\n");
+}
+
+void InitBoard(char board[ROWS][COLS], int rows, int cols, char set) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            board[i][j] = set;
+        }
+    }
+}
+
+void DisplayBoard(char board[ROWS][COLS], int row, int col) {
+    for (int i = 0; i <= row; i++) {
+        printf("%d ", i);
+    }
+    printf("\n");
+    for (int i = 1; i <= row; i++) {
+        printf("%d ", i);
+        for (int j = 1; j <= col; j++) {
+            printf("%c ", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void SetMine(char mine[ROWS][COLS], int row, int col) {
+    int count = EASY_COUNT;
+    while (count) {
+        int x = rand() % row + 1;
+        int y = rand() % col + 1;
+        if (mine[x][y] == '0') {
+            mine[x][y] = '1';
+            count--;
+        }
+    }
+}
+
+int GetMineCount(char mine[ROWS][COLS], int x, int y) {
+    return mine[x - 1][y - 1] + mine[x - 1][y] + mine[x - 1][y + 1] +
+        mine[x][y - 1] + mine[x][y + 1] +
+        mine[x + 1][y - 1] + mine[x + 1][y] + mine[x + 1][y + 1] - 8 * '0';
+}
+
+void ExpandBoard(char mine[ROWS][COLS], char show[ROWS][COLS], int x, int y) {
+    if (x >= 1 && x <= ROW && y >= 1 && y <= COL) {
+        int count = GetMineCount(mine, x, y);
+        if (count == 0 && show[x][y] == '*') {
+            show[x][y] = ' ';
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    ExpandBoard(mine, show, x + i, y + j);
+                }
+            }
+        }
+        else {
+            show[x][y] = count + '0';
+        }
+    }
+}
+
+void MarkMine(char show[ROWS][COLS], int x, int y) {
+    if (show[x][y] == '*') {
+        show[x][y] = '!';
+    }
+    else if (show[x][y] == '!') {
+        show[x][y] = '*';
+    }
+}
+
+void FindMine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col) {
+    int x, y;
+    int win = 0;
+    clock_t start, end;
+    start = clock();
+    while (win < row * col - EASY_COUNT) {
+        printf("请输入要排查的坐标:>");
+        scanf("%d %d", &x, &y);
+        if (x >= 1 && x <= row && y >= 1 && y <= col) {
+            if (mine[x][y] == '1') {
+                end = clock();
+                printf("很遗憾，你被炸死了\n");
+                DisplayBoard(mine, ROW, COL);
+                printf("用时: %.2f秒\n", (double)(end - start) / CLOCKS_PER_SEC);
+                break;
+            }
+            else {
+                ExpandBoard(mine, show, x, y);
+                DisplayBoard(show, ROW, COL);
+                win++;
+            }
+        }
+        else {
+            printf("坐标非法，重新输入\n");
+        }
+        printf("是否标记雷(1. 是, 0. 否):>");
+        int mark;
+        scanf("%d", &mark);
+        if (mark == 1) {
+            printf("请输入要标记的坐标:>");
+            scanf("%d %d", &x, &y);
+            if (x >= 1 && x <= row && y >= 1 && y <= col) {
+                MarkMine(show, x, y);
+                DisplayBoard(show, ROW, COL);
+            }
+            else {
+                printf("坐标非法，重新输入\n");
+            }
+        }
+    }
+    if (win == row * col - EASY_COUNT) {
+        end = clock();
+        printf("恭喜你，排雷成功\n");
+        DisplayBoard(mine, ROW, COL);
+        printf("用时: %.2f秒\n", (double)(end - start) / CLOCKS_PER_SEC);
+    }
+}
+
+void game() {
+    char mine[ROWS][COLS];
+    char show[ROWS][COLS];
+    InitBoard(mine, ROWS, COLS, '0');
+    InitBoard(show, ROWS, COLS, '*');
+    DisplayBoard(show, ROW, COL);
+    SetMine(mine, ROW, COL);
+    FindMine(mine, show, ROW, COL);
+}
+
+int main() {
+    int input = 0;
+    srand((unsigned int)time(NULL));
+    do {
+        menu();
+        printf("请选择:>");
+        scanf("%d", &input);
+        switch (input) {
+        case 1:
+            game();
+            break;
+        case 0:
+            printf("退出游戏\n");
+            break;
+        default:
+            printf("选择错误，重新选择\n");
+            break;
+        }
+    } while (input);
     return 0;
 }
 
